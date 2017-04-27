@@ -1,18 +1,41 @@
 import React from 'react';
-import {mount} from 'react-mounter';
+import Helmet from 'react-helmet';
+import { render } from 'react-dom';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import MainLayout from './components/main_layout.jsx';
-import Home from './components/home.jsx';
+// Material-ui
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-export default function (injectDeps, {FlowRouter}) {
-  const MainLayoutCtx = injectDeps(MainLayout);
+import root from './root';
 
-  FlowRouter.route('/', {
-    name: 'home',
-    action() {
-      mount(MainLayoutCtx, {
-        content: () => (<Home />)
-      });
-    }
-  });
+// import Users from './components/users';
+import MainPage from './components/main_layout';
+import People from '../people/components/people';
+// import Task from './components/task';
+
+
+export default function (injectDeps) {
+
+  // const UsersCtx = injectDeps(Users);
+  const MainPageCtx = injectDeps(MainPage);
+  const PeopleCtx = injectDeps(People);
+  // const TaskCtx = injectDeps(Task);
+
+  injectTapEventPlugin();
+
+  render(
+    <MuiThemeProvider>
+      <div>
+        <Helmet title="TodoList-App" />
+        <Router history={browserHistory}>
+          <Route path="/" component={MainPageCtx}>
+            <IndexRoute component={PeopleCtx} />
+            <Route path="/people" component={PeopleCtx} />
+          </Route>
+        </Router>
+      </div>
+    </MuiThemeProvider>,
+    root('root-node')
+  );
 }

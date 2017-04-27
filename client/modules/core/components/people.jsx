@@ -1,9 +1,12 @@
 import React from 'react';
 
-const People = () => (
-  <div>
-    People
-  </div>
-);
+export default class People extends React.Component {
+  render() {
+    return (
+      <div>
+        PEOPLE
+      </div>
+    );
+  }
+}
 
-export default People;
