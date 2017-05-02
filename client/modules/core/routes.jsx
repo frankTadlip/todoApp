@@ -11,7 +11,7 @@ import root from './root';
 
 // import Users from './components/users';
 import MainPage from './components/main_layout';
-import People from '../people/components/people';
+import People from '../people/containers/people';
 // import Task from './components/task';
 
 
