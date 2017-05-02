@@ -7,20 +7,54 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { List, ListItem } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
-import Avatar from 'material-ui/Avatar';
+import Avatar from 'react-avatar';
+// import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import MenuIcon from 'material-ui/svg-icons/navigation/more-vert'
+import MenuIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 import EditIcon from 'material-ui/svg-icons/image/edit';
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
 import ViewIcon from 'material-ui/svg-icons/av/playlist-add-check';
 
+const iconButtonElement = (
+  <IconButton
+    touch={true}
+    tooltip="more"
+    tooltipPosition="bottom-left"
+  >
+    <MenuIcon color={grey400} />
+  </IconButton>
+);
+
+const rightIconMenu = () => (
+    <IconMenu iconButtonElement={iconButtonElement}>
+        <MenuItem primaryText="View Task" leftIcon={<ViewIcon />}> </MenuItem>
+        <MenuItem primaryText="Edit" leftIcon={<EditIcon />}> </MenuItem>
+        <MenuItem primaryText="Delete" leftIcon={<DeleteIcon />}></MenuItem>
+    </IconMenu>
+);
+
+
 export default class People extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      field: '',
+      listData: this.props.people,
+      data: {},
+      openPerson: false,
+      openDeleteDialog: false
+    };
+
+  }
+
   render() {
+
     return (
       <div>
         <form action="">
@@ -47,7 +81,15 @@ export default class People extends React.Component {
 
         <Paper zDepth={1}>
           <List>
-             <Subheader>Today</Subheader>
+            <Subheader>Today</Subheader>
+            {this.state.listData.map((data, index) => (
+              <ListItem key={index}
+                leftAvatar={<Avatar name={data.fullname} size={45} round={true} />}
+                primaryText={data.fullname}
+                secondaryText={data.secondaryText}
+                 rightIconButton={rightIconMenu()}
+              />
+            ))}
           </List>
         </Paper>
       </div>
